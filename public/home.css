@@ -1,0 +1,489 @@
+/* Reset Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Navbar */
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 13vh;
+    background: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
+    padding: 0 20px;
+    z-index: 1000;
+}
+
+/* Left Section: Logo & Title */
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+#logo {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+    border-radius: 50%;
+}
+
+.heading {
+    font-family: "Sankofa Display", sans-serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 7vh;
+    color: white; /* White text for contrast */
+}
+
+/* Right Section: Profile & Message Buttons */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1); /* Light transparent background */
+    border: 2px solid transparent;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.nav-btn i {
+    font-size: 20px;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid white;
+}
+
+/* ✨ Welcome Section - Premium Styling */
+.welcome-container {
+    text-align: center;
+    padding: 140px 20px 70px; /* Increased padding for better spacing */
+    max-width: 1200px;
+    margin: auto;
+    min-height: 50vh; /* Takes half of the screen */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* ✨ Welcome Title - Stylish Glow Effect */
+.welcome-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #FFD700; /* Gold effect */
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6);
+    margin-bottom: 25px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* ✨ Description Box - Glassmorphism Effect */
+.welcome-description {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    padding: 25px 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    color: white;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.2);
+    animation: slideIn 1.2s ease-in-out;
+}
+
+/* ✨ Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 🎯 Container for Both Boxes */
+.project-box {
+    width: 320px;
+    background: rgba(0, 0, 0, 0.6); /* Glass effect */
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.15);
+    transition: transform 0.1s linear, background 0.3s ease-in-out; /* Smooth movement & hover effect */
+    position: relative; /* Ensures movement works */
+}
+
+/* ✅ This ensures the entire box section stays in place while moving */
+.project-boxes {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 60px 20px;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    overflow: hidden; /* Prevent overflow */
+}
+
+
+/* 🎯 Image Styling */
+.project-box img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* 🎯 Title */
+.project-box h2 {
+    font-size: 1.5rem;
+    margin: 15px 0;
+    color: #FFD700; /* Gold title */
+    text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.8);
+}
+
+/* 🎯 Description */
+.project-box p {
+    font-size: 1rem;
+    color: white;
+    line-height: 1.6;
+}
+
+/* 🎯 Button Styling */
+.custom-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: linear-gradient(45deg, #ffcc00, #ff6600);
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+}
+
+/* 🎯 Hover Effects */
+.project-box:hover {
+    transform: translateY(-5px);
+}
+
+.custom-button:hover {
+    background: linear-gradient(45deg, #ff6600, #ffcc00);
+    color: white;
+}
+
+
+/* 🎯 Responsive Adjustments */
+@media (max-width: 768px) {
+    .welcome-title {
+        font-size: 2.8rem;
+    }
+    .welcome-description {
+        font-size: 1rem;
+        padding: 20px 25px;
+    }
+}
+
+
+
+
+
+/* Background Video */
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.background-clip {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .heading {
+        font-size: 4vh;
+    }
+    #logo {
+        width: 50px;
+        height: 50px;
+    }
+    .nav-btn {
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+    .nav-btn i {
+        font-size: 18px;
+    }
+}
+
+.collaboration-section {
+    background-image: url('bg-2.jpg'); /* 🔥 Change this */
+    background-size: cover;
+    background-position: center;
+    padding: 80px 0;
+    text-align: center;
+    color: white;
+}
+
+.collab-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    color: #FFD700; /* Golden color */
+}
+
+.collab-description {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.collab-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.collab-box {
+    width: 300px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.15);
+    transition: transform 0.3s ease-in-out;
+}
+
+.collab-box img {
+    width: 100%;
+    height: 180px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.collab-content {
+    margin-top: 15px;
+}
+
+.collab-content p {
+    margin: 8px 0;
+}
+
+.collab-btn {
+    background: #FFD700;
+    color: black;
+    font-weight: bold;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.collab-btn:hover {
+    background: #FFA500;
+}
+
+.team-section {
+    background-image: url('team.jpg'); /* 🔥 Change this */
+    background-size: cover;
+    background-position: center;
+    padding: 80px 0;
+    text-align: center;
+    color: white;
+}
+
+.team-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    color: #FFD700; /* Golden color */
+}
+
+.team-description {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.team-form-container {
+    display: flex;
+    justify-content: center;
+}
+
+.team-form {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.2);
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-size: 1rem;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #FFD700;
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    outline: none;
+}
+
+.form-textarea {
+    height: 100px;
+    resize: none;
+}
+
+.form-button {
+    background: #FFD700;
+    color: black;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.form-button:hover {
+    background: #FFA500;
+}
+
+.alumni-section {
+    background-image: url('previous.jpg'); /* 🔥 Change this */
+    background-size: cover;
+    background-position: center;
+    padding: 80px 0;
+    text-align: center;
+    color: white;
+}
+
+.alumni-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    color: #FFD700;
+}
+
+.alumni-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.alumni-box {
+    width: 320px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.2);
+}
+
+.alumni-image {
+    width: 100%;
+    height: 250px; /* Adjust as needed */
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.alumni-info {
+    margin-top: 10px;
+    font-size: 1.1rem;
+}
+
+.upload-container {
+    margin-top: 50px;
+}
+
+.upload-text {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.upload-button {
+    background: #FFD700;
+    color: black;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.upload-button:hover {
+    background: #FFA500;
+}
+
+footer{
+    background-color: black;
+    color: white;
+    padding: 9px 20px;
+}
+
+.foot{
+    text-align: center;
+}   

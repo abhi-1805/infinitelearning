@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Learning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sankofa+Display&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modal styles for alumni upload form */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #fccb90 0%, #d57eeb 100%);
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .modal-title {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ffeb3b;
+            transform: scale(1.2);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-form-group {
+            position: relative;
+        }
+
+        .modal-form-label {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 16px;
+        }
+
+        .modal-form-input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .modal-form-input:focus {
+            outline: none;
+            border-color: #ffeb3b;
+            box-shadow: 0 0 20px rgba(255, 235, 59, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .modal-form-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .modal-file-input {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .modal-file-input input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .modal-file-label {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: white;
+            display: block;
+        }
+
+        .modal-file-label:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ffeb3b;
+        }
+
+        .modal-submit-btn {
+            background: linear-gradient(45deg, #ffeb3b, #ffc107);
+            color: #333;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 235, 59, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 235, 59, 0.5);
+        }
+
+        /* Dynamic grid layout for sections */
+        .collab-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .alumni-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .collab-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .alumni-container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+        .delete-btn {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 3px 10px rgba(255, 68, 68, 0.3);
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 68, 68, 0.5);
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+    </style>
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const boxes = document.querySelectorAll(".project-box");
+        let direction = 1;
+        let speed = 2;
+        let maxDistance = (window.innerWidth / 2.5) - 200;
+        let position1 = 0;
+        let position2 = 0;
+
+        function animateBoxes() {
+            position1 += speed * direction;
+            position2 -= speed * direction;
+
+            if (Math.abs(position1) >= maxDistance) {
+                direction *= -1;
+            }
+
+            boxes[0].style.transform = `translateX(${position1}px)`;
+            boxes[1].style.transform = `translateX(${position2}px)`;
+
+            requestAnimationFrame(animateBoxes);
+        }
+
+        animateBoxes();
+
+        boxes.forEach(box => {
+            box.addEventListener("mouseenter", () => speed = 0);
+            box.addEventListener("mouseleave", () => speed = 2);
+        });
+
+        window.addEventListener("resize", () => {
+            maxDistance = (window.innerWidth / 2.5) - 200;
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (!user.email) {
+            alert('Please log in first.');
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        loadUnreadMessageCount();
+        setInterval(loadUnreadMessageCount, 30000);
+        
+        // Load existing posts
+        loadCollaborationPosts();
+        loadAlumniPosts();
+    });
+
+    async function loadUnreadMessageCount() {
+        try {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            if (!user.email) return;
+            
+            const response = await fetch(`/api/total-unread/${user.email}`);
+            if (response.ok) {
+                const data = await response.json();
+                updateMessageNotification(data.totalUnread);
+            }
+        } catch (error) {
+            console.error('Error loading unread message count:', error);
+        }
+    }
+
+    function updateMessageNotification(count) {
+        const messageButton = document.querySelector('.nav-btn[onclick*="messages"]');
+        if (!messageButton) return;
+        
+        const existingBadge = messageButton.querySelector('.notification-badge');
+        if (existingBadge) {
+            existingBadge.remove();
+        }
+        
+        if (count > 0) {
+            const badge = document.createElement('span');
+            badge.className = 'notification-badge';
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.style.cssText = `
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                background: #ff4444;
+                color: white;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+            `;
+            messageButton.style.position = 'relative';
+            messageButton.appendChild(badge);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const profileButton = document.getElementById('profileButton');
+
+        profileButton.addEventListener('click', function () {
+            const user = localStorage.getItem('user');
+
+            if (user) {
+                window.location.href = 'profile.html';
+            } else {
+                alert('Please log in first.');
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Team form submission
+        const teamForm = document.querySelector('.team-form');
+        teamForm.addEventListener('submit', handleTeamFormSubmit);
+
+        // Alumni upload modal
+        const uploadButton = document.querySelector('.upload-button');
+        const modal = document.getElementById('alumniModal');
+        const closeBtn = document.querySelector('.close');
+        const alumniForm = document.getElementById('alumniForm');
+
+        uploadButton.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        alumniForm.addEventListener('submit', handleAlumniFormSubmit);
+    });
+
+    // Handle team form submission
+    async function handleTeamFormSubmit(event) {
+        event.preventDefault();
+        
+        const formData = new FormData();
+        const imageFile = document.getElementById('project-image').files[0];
+        const title = document.getElementById('project-title').value;
+        const technologies = document.getElementById('technologies').value;
+        const description = document.getElementById('project-description').value;
+        const vacancies = document.getElementById('vacancies').value;
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+        if (!imageFile || !title || !technologies || !description || !vacancies) {
+            alert('Please fill all fields');
+            return;
+        }
+
+        formData.append('image', imageFile);
+        formData.append('title', title);
+        formData.append('technologies', technologies);
+        formData.append('description', description);
+        formData.append('vacancies', vacancies);
+        formData.append('userEmail', user.email);
+
+        try {
+            const response = await fetch('/api/collaboration-posts', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                alert('Project posted successfully!');
+                document.querySelector('.team-form').reset();
+                loadCollaborationPosts();
+            } else {
+                alert('Error posting project');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error posting project');
+        }
+    }
+
+    // Handle alumni form submission
+    async function handleAlumniFormSubmit(event) {
+        event.preventDefault();
+        
+        const formData = new FormData();
+        const imageFile = document.getElementById('alumni-image').files[0];
+        const title = document.getElementById('alumni-title').value;
+        const developers = document.getElementById('alumni-developers').value;
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+        if (!imageFile || !title || !developers) {
+            alert('Please fill all fields');
+            return;
+        }
+
+        formData.append('image', imageFile);
+        formData.append('title', title);
+        formData.append('developers', developers);
+        formData.append('userEmail', user.email);
+
+        try {
+            const response = await fetch('/api/alumni-posts', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                alert('Project uploaded successfully!');
+                document.getElementById('alumniForm').reset();
+                document.getElementById('alumniModal').style.display = 'none';
+                loadAlumniPosts();
+            } else {
+                alert('Error uploading project');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error uploading project');
+        }
+    }
+
+    // Load collaboration posts
+    async function loadCollaborationPosts() {
+        try {
+            const response = await fetch('/api/collaboration-posts');
+            if (response.ok) {
+                const posts = await response.json();
+                displayCollaborationPosts(posts);
+            }
+        } catch (error) {
+            console.error('Error loading collaboration posts:', error);
+        }
+    }
+
+    // Function to send collaboration message
+    async function sendCollaborationMessage(recipientEmail, projectTitle) {
+        try {
+            const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+            const defaultMessage = `Hi! I am interested to collaborate with you on your project "${projectTitle}". Let's discuss further!`;
+            
+            const response = await fetch('/api/send-message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    senderEmail: currentUser.email,
+                    receiverEmail: recipientEmail,
+                    message: defaultMessage
+                })
+            });
+
+            if (response.ok) {
+                alert('Message sent successfully! Check your messages to continue the conversation.');
+            } else {
+                alert('Error sending message. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error sending collaboration message:', error);
+            alert('Error sending message. Please try again.');
+        }
+    }
+
+    // Display collaboration posts
+    function displayCollaborationPosts(posts) {
+        const container = document.querySelector('.collab-container');
+        const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+
+        // Keep existing static posts and add new ones
+        const staticPosts = `
+            <div class="collab-box">
+                <img src="webdevelopment.jpg" alt="Web Development">
+                <div class="collab-content">
+                    <p><strong>Title:</strong> Web Development</p>
+                    <p><strong>Technologies:</strong> HTML, CSS, JS</p>
+                    <p><strong>Description:</strong> Who are good at frontend can join our team</p>
+                    <p><strong>Vacancies:</strong> 2</p>
+                    <button class="collab-btn" onclick="sendCollaborationMessage('jonsnow@gmail.com', 'Web Development')">Collaborate</button>
+                </div>
+            </div>
+            <div class="collab-box">
+                <img src="circuit.jpg" alt="Circuit design">
+                <div class="collab-content">
+                    <p><strong>Title:</strong> Circuit Design</p>
+                    <p><strong>Technologies:</strong> MATLab, CAD, VLSI</p>
+                    <p><strong>Description:</strong> Looking for Embedded programmers to work on circuit design projects</p>
+                    <p><strong>Vacancies:</strong> 3</p>
+                    <button class="collab-btn" onclick="sendCollaborationMessage('jonsnow@gmail.com', 'Circuit Design')">Collaborate</button>
+                </div>
+            </div>
+            <div class="collab-box">
+                <img src="appdevelopment .jpg" alt="App Development">
+                <div class="collab-content">
+                    <p><strong>Title:</strong> App Development</p>
+                    <p><strong>Technologies:</strong> Flutter, Dart, Firebase</p>
+                    <p><strong>Description:</strong> Need developers for cross-platform app building</p>
+                    <p><strong>Vacancies:</strong> 4</p>
+                    <button class="collab-btn" onclick="sendCollaborationMessage('jonsnow@gmail.com', 'App Development')">Collaborate</button>
+                </div>
+            </div>
+        `;
+
+        const dynamicPosts = posts.map(post => `
+            <div class="collab-box">
+                <img src="/uploads/${post.image}" alt="${post.title}">
+                <div class="collab-content">
+                    <p><strong>Title:</strong> ${post.title}</p>
+                    <p><strong>Technologies:</strong> ${post.technologies}</p>
+                    <p><strong>Description:</strong> ${post.description}</p>
+                    <p><strong>Vacancies:</strong> ${post.vacancies}</p>
+                    <div class="post-actions">
+                        <button class="collab-btn" onclick="sendCollaborationMessage('${post.userEmail}', '${post.title}')">Collaborate</button>
+                        ${post.userEmail === currentUser.email ?
+                            `<button class="delete-btn" onclick="deleteCollaborationPost('${post._id}')">Delete</button>` :
+                            ''
+                        }
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        container.innerHTML = staticPosts + dynamicPosts;
+    }
+
+    // Load alumni posts
+    async function loadAlumniPosts() {
+        try {
+            const response = await fetch('/api/alumni-posts');
+            if (response.ok) {
+                const posts = await response.json();
+                displayAlumniPosts(posts);
+            }
+        } catch (error) {
+            console.error('Error loading alumni posts:', error);
+        }
+    }
+
+    // Display alumni posts
+    function displayAlumniPosts(posts) {
+        const container = document.querySelector('.alumni-container');
+
+        // Keep existing static posts and add new ones
+        const staticPosts = `
+            <div class="alumni-box">
+                <img src="project-2.png" alt="Project 1" class="alumni-image">
+                <div class="alumni-info">
+                    <p><strong>Title:</strong> Restaurant website</p>
+                    <p><strong>Developers:</strong> Rishi, Abhi</p>
+                </div>
+            </div>
+            <div class="alumni-box">
+                <img src="drone.jpg" alt="Project 2" class="alumni-image">
+                <div class="alumni-info">
+                    <p><strong>Title:</strong> Drone</p>
+                    <p><strong>Developers:</strong> Krishna, Sai</p>
+                </div>
+            </div>
+            <div class="alumni-box">
+                <img src="gym.PNG" alt="Project 3" class="alumni-image">
+                <div class="alumni-info">
+                    <p><strong>Title:</strong> Gym Site</p>
+                    <p><strong>Developers:</strong> Karthik, Eshwar</p>
+                </div>
+            </div>
+        `;
+
+        const dynamicPosts = posts.map(post => `
+            <div class="alumni-box">
+                <img src="/uploads/${post.image}" alt="${post.title}" class="alumni-image">
+                <div class="alumni-info">
+                    <p><strong>Title:</strong> ${post.title}</p>
+                    <p><strong>Developers:</strong> ${post.developers}</p>
+                </div>
+            </div>
+        `).join('');
+
+        container.innerHTML = staticPosts + dynamicPosts;
+    }
+
+    // Delete collaboration post function
+    async function deleteCollaborationPost(postId) {
+        if (!confirm('Are you sure you want to delete this post?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/collaboration-posts/${postId}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert('Post deleted successfully!');
+                loadCollaborationPosts(); // Reload posts
+            } else {
+                alert('Error deleting post');
+            }
+        } catch (error) {
+            console.error('Error deleting post:', error);
+            alert('Error deleting post');
+        }
+    }
+
+</script>
+    
+</head>
+<body>
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="nav-left">
+            <img src="logo.png" alt="Infinite Learning" id="logo">
+            <h2 class="heading">Infinite Learning</h2>
+        </div>
+        <div class="nav-right">
+            <button class="nav-btn" onclick="window.location.href='messages.html'">
+                <i class="fa-solid fa-envelope"></i>
+                <span>Messages</span>
+            </button>
+            <button class="nav-btn profile-btn" id="profileButton">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
+    <div class="welcome-container">
+        <h1 class="welcome-title">Welcome to Infinite Learning</h1>
+        <p class="welcome-description">
+            Infinite Learning is a dynamic platform designed to connect students with exciting project opportunities. 
+            Whether you're seeking a team to join or looking to build your own, Infinite Learning provides the resources 
+            and connections you need. Explore past projects for inspiration. Ignite your learning journey today.
+            <br><br> our community and unlock infinite learning possibilities.
+        </p>
+    </div>
+
+    <div class="project-boxes">
+        <!-- First Box -->
+        <div class="project-box">
+            <img src="join.jpg" alt="Collaboration">
+            <h2>Connect & Build</h2>
+            <p>Connect with fellow students and build something amazing. Explore current project vacancies.</p>
+            <a href="#collab" class="custom-button">Ready to collaborate?</a>
+        </div>
+
+        <!-- Second Box -->
+        <div class="project-box">
+            <img src="join.jpg" alt="Team Formation">
+            <h2>Start Your Team</h2>
+            <p>Start building your project team now. Form a team and bring your vision to reality.</p>
+            <a href="#team" class="custom-button">Looking for collaborators?</a>
+        </div>
+    </div>
+
+    <!-- Background Video -->
+    <div class="video-container">
+        <video autoplay loop muted playsinline class="background-clip">
+            <source src="background.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <section class="collaboration-section" id="collab">
+        <h2 class="collab-title">Ready to Collaboration</h2>
+        <p class="collab-description">
+            Discover projects that match your interests and apply your skills to real-world projects.
+        </p>
+    
+        <div class="collab-container">
+            <!-- Dynamic content will be loaded here -->
+        </div>
+    </section>
+
+    <section class="team-section" id="team">
+        <h2 class="team-title">Start Your Team</h2>
+        <p class="team-description">
+            Start building your project team now. Find talented students to join your team.
+        </p>
+    
+        <div class="team-form-container">
+            <form class="team-form">
+                <!-- Upload Image -->
+                <label for="project-image" class="form-label">Upload Project Image</label>
+                <input type="file" id="project-image" class="form-input" accept="image/*" required>
+    
+                <!-- Project Title -->
+                <label for="project-title" class="form-label">Project Title</label>
+                <input type="text" id="project-title" class="form-input" placeholder="Enter your project title" required>
+    
+                <!-- Technologies Required -->
+                <label for="technologies" class="form-label">Technologies Required</label>
+                <input type="text" id="technologies" class="form-input" placeholder="e.g. HTML, CSS, JavaScript" required>
+    
+                <!-- Project Description -->
+                <label for="project-description" class="form-label">Project Description</label>
+                <textarea id="project-description" class="form-textarea" placeholder="Briefly describe your project" required></textarea>
+    
+                <!-- Number of Vacancies -->
+                <label for="vacancies" class="form-label">Number of Vacancies</label>
+                <input type="number" id="vacancies" class="form-input" min="1" placeholder="Enter number of vacancies" required>
+    
+                <!-- Submit Button -->
+                <button type="submit" class="form-button">Post</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="alumni-section">
+        <h2 class="alumni-title">Our Alumni Projects</h2>
+    
+        <div class="alumni-container">
+            <!-- Dynamic content will be loaded here -->
+        </div>
+    
+        <!-- Upload Section -->
+        <div class="upload-container">
+            <p class="upload-text">Display your projects here</p>
+            <button class="upload-button">Upload</button>
+        </div>
+    </section>
+
+    <!-- Alumni Upload Modal -->
+    <div id="alumniModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Upload Alumni Project</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="alumniForm" class="modal-form">
+                    <div class="modal-form-group">
+                        <label for="alumni-image" class="modal-form-label">Project Image</label>
+                        <div class="modal-file-input">
+                            <input type="file" id="alumni-image" accept="image/*" required>
+                            <label for="alumni-image" class="modal-file-label">
+                                <i class="fa-solid fa-upload"></i> Choose Image
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="alumni-title" class="modal-form-label">Project Title</label>
+                        <input type="text" id="alumni-title" class="modal-form-input" placeholder="Enter project title" required>
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="alumni-developers" class="modal-form-label">Developer Names</label>
+                        <input type="text" id="alumni-developers" class="modal-form-input" placeholder="e.g. John, Jane" required>
+                    </div>
+                    <button type="submit" class="modal-submit-btn">Upload Project</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="foot">
+            Copyright &copy; www.Infinitelearning.com. All rights reserved!
+        </div>
+    </footer>
+
+</body>
+</html>

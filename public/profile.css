@@ -1,0 +1,222 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --navbar-height: 59px;
+}
+
+body {
+    font-family: 'Roboto Mono', monospace;
+    height: 100vh;
+    background: url('profile.jpg') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar Styles */
+#navbar {
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 10;
+    padding: 10px 34px;
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+}
+
+#logo img {
+    width: 75px;
+    height: 75px;
+    margin-right: 15px;
+}
+
+/* Title Styles */
+#title {
+    font-family: 'Balsamiq Sans', cursive;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6), 
+                 0 0 30px rgba(255, 0, 255, 0.4), 0 0 40px rgba(255, 0, 255, 0.4);
+    animation: glow 1.5s infinite alternate, colorChange 5s infinite linear;
+    transition: transform 0.3s ease;
+}
+
+#title:hover {
+    transform: scale(1.05);
+}
+
+/* Keyframes for the glowing effect */
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.3),
+                     0 0 25px rgba(255, 0, 255, 0.5), 0 0 35px rgba(255, 0, 255, 0.5);
+    }
+    to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 255, 255, 0.7),
+                     0 0 40px rgba(255, 0, 255, 0.9), 0 0 50px rgba(255, 0, 255, 0.9);
+    }
+}
+
+/* Keyframes for the color-changing effect */
+@keyframes colorChange {
+    0% {
+        color: #ff00ff;
+    }
+    25% {
+        color: #00ffff;
+    }
+    50% {
+        color: #ff00ff;
+    }
+    75% {
+        color: #ff9900;
+    }
+    100% {
+        color: #00ffff;
+    }
+}
+
+/* Navbar Menu */
+#navbar ul {
+    display: flex;
+    margin-left: auto;
+}
+
+#navbar ul li {
+    list-style: none;
+    margin-left: 20px;
+    font-size: 1.3rem;
+    position: relative;
+}
+
+#navbar ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#navbar ul li a:hover {
+    color: black;
+    background-color: white;
+}
+
+.home-btn {
+    background-color: #1f1d28;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 10px 25px;
+    border-radius: 25px;
+    border: 2px solid transparent;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.home-btn:hover {
+    background-color: white;
+    color: #4926f4;
+    border-color: #4926f4;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(73, 38, 244, 0.8);
+}
+
+/* Add this CSS to your existing styles */
+
+#profile-section {
+    padding: 20px 40px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    margin: 20px auto;
+    border-radius: 10px;
+    max-width: 600px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.section-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff00ff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 0, 255, 0.4);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: black;
+}
+
+input:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+#edit-btn {
+    background-color: #4926f4;
+    color: white;
+}
+
+#save-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+#cancel-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+#logout-btn {
+    background-color: #ff5722;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+#logout-btn:hover {
+    background-color: #ff3d00;
+}

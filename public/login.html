@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Learning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sankofa+Display&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav id="navbar">
+        <h2 class="heading">Infinite Learning</h2>
+        <div id="logo">
+            <img src="images/logo-2.png" alt="infinite learning">
+        </div>
+    </nav>
+    <div class="center-container">
+        <video autoplay loop muted plays-inline class="background-clip">
+            <source src="images/video.mp4" type="video/mp4">
+        </video>
+        <div class="box" id="SignIn">
+            <form id="loginForm">
+                <h2>Sign In</h2>
+                <div class="inputBox">
+                    <input type="email" name="email" id="loginEmail" required>
+                    <label for="loginEmail">Email</label>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="password" name="password" id="loginPassword" required>
+                    <label for="loginPassword">Enter password</label>
+                    <i></i>
+                </div>
+                <input type="submit" value="Login">
+                <div class="links">
+                    <a href="#">Forgot password?</a>
+                    <button type="button" id="signUpButton">Sign Up</button>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="signup" style="display: none;">
+            <form id="signupForm">
+                <h2>Sign Up</h2>
+                <div class="inputBox">
+                    <input type="text" name="fullName" id="fName" required>
+                    <label for="fName">Full Name</label>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="branch" id="branch" required>
+                    <label for="branch">Branch</label>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="number" name="year" id="year" required>
+                    <label for="year">Year of Studying</label>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="rollNo" id="rollno" required>
+                    <label for="rollno">Roll Number</label>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="email" name="email" id="signupEmail" required>
+                    <label for="signupEmail">Email</label>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="password" name="password" id="signupPassword" required>
+                    <label for="signupPassword">Enter your password</label>
+                    <i></i>
+                </div>
+                <input type="submit" value="Sign Up">
+                <div class="links">
+                    <a href="#">Already have an Account?</a>
+                    <button type="button" id="signInButton">Sign In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>
