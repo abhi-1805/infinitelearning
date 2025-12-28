@@ -22,27 +22,33 @@
         <h2 class="section-title">Profile Details</h2>
         <form id="profile-form">
             <div class="form-group">
-                <label for="full-name">Full Name:</label>
+                <!-- kept id 'full-name' to avoid breaking CSS; label updated -->
+                <label for="full-name">First Name:</label>
                 <input type="text" id="full-name" disabled>
             </div>
             <div class="form-group">
-                <label for="branch">Branch:</label>
+                <!-- kept id 'branch' to avoid breaking CSS; label updated -->
+                <label for="branch">Last Name:</label>
                 <input type="text" id="branch" disabled>
             </div>
             <div class="form-group">
-                <label for="year">Year of Study:</label>
+                <!-- kept id 'year' to avoid breaking CSS; label updated -->
+                <label for="year">Age:</label>
                 <input type="text" id="year" disabled>
             </div>
             <div class="form-group">
-                <label for="roll-number">Roll Number:</label>
-                <input type="text" id="roll-number" disabled>
+                <!-- roll-number field is now the user's Email; changed type to email and label -->
+                <label for="roll-number">Email:</label>
+                <input type="email" id="roll-number" disabled>
             </div>
             <div class="form-group">
-                <label for="email">Email ID:</label>
-                <input type="email" id="email" disabled>
+                <!-- this input was previously the 'email' field; now it's the New Password -->
+                <label for="email">New Password:</label>
+                <input type="password" id="email" disabled placeholder="">
             </div>
             <div class="form-group">
-                <label for="password">Password:</label>
+                <!-- this input was previously 'password'; now it's Confirm Password -->
+                <label for="password">Confirm Password:</label>
                 <input type="password" id="password" value="********" disabled>
             </div>
 
@@ -57,23 +63,35 @@
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             const user = JSON.parse(localStorage.getItem('user'));
-    
+
             if (!user) {
                 alert('Please log in first.');
                 window.location.href = 'login.html';
                 return;
             }
-    
+
+            // Utility to safely read server fields with fallback
+            function safeField(obj, ...keys) {
+                for (const k of keys) {
+                    if (obj && obj[k] !== undefined && obj[k] !== null) return obj[k];
+                }
+                return '';
+            }
+
             try {
-                const response = await fetch(`http://localhost:5000/api/user/${user.email}`);
+                const response = await fetch(`http://localhost:5000/api/user/${encodeURIComponent(user.email)}`);
                 const userData = await response.json();
-    
+
                 if (response.ok) {
-                    document.getElementById('full-name').value = userData.fullName;
-                    document.getElementById('branch').value = userData.branch;
-                    document.getElementById('year').value = userData.year;
-                    document.getElementById('roll-number').value = userData.rollNo;
-                    document.getElementById('email').value = userData.email;
+                    // try new keys first, then fall back to older names to be robust
+                    document.getElementById('full-name').value = safeField(userData, 'firstName', 'fullName');
+                    document.getElementById('branch').value = safeField(userData, 'lastName', 'branch');
+                    document.getElementById('year').value = safeField(userData, 'age', 'year');
+                    // roll-number now holds the user's email
+                    document.getElementById('roll-number').value = safeField(userData, 'email', 'rollNo');
+                    // password fields remain masked by default
+                    document.getElementById('email').value = '';
+                    document.getElementById('password').value = '********';
                 } else {
                     alert('Error fetching user details.');
                 }
@@ -81,46 +99,78 @@
                 console.error('Error fetching user data:', error);
                 alert('Error connecting to server.');
             }
-    
+
             document.getElementById('logout-btn').addEventListener('click', function () {
                 localStorage.removeItem('user');
                 window.location.href = 'login.html';
             });
-    
+
             const editButton = document.getElementById('edit-btn');
             const saveButton = document.getElementById('save-btn');
             const cancelButton = document.getElementById('cancel-btn');
-            const inputs = document.querySelectorAll('#profile-form input:not([type="password"])');
-    
+
+            // include all inputs so password can be edited too
+            const inputs = document.querySelectorAll('#profile-form input');
+
+            // Save initial values (for cancel)
+            function getCurrentValues() {
+                return Array.from(inputs).map(i => i.value);
+            }
+            let initialValues = getCurrentValues();
+
             editButton.addEventListener('click', () => {
                 inputs.forEach(input => input.disabled = false);
+                // when enabling password editing, clear masked placeholder so user can type
+                if (document.getElementById('password').value === '********') {
+                    document.getElementById('password').value = '';
+                }
                 saveButton.disabled = false;
                 cancelButton.disabled = false;
                 editButton.disabled = true;
             });
-    
+
             cancelButton.addEventListener('click', () => {
-                inputs.forEach(input => input.disabled = true);
+                // restore previous values and disable inputs
+                inputs.forEach((input, idx) => {
+                    input.value = initialValues[idx];
+                    input.disabled = true;
+                });
                 saveButton.disabled = true;
                 cancelButton.disabled = true;
                 editButton.disabled = false;
             });
 
             saveButton.addEventListener('click', async () => {
+                // Gather updated values according to the mappings we used:
+                const firstNameVal = document.getElementById('full-name').value.trim();
+                const lastNameVal  = document.getElementById('branch').value.trim();
+                const ageVal       = document.getElementById('year').value.trim();
+                const emailVal     = document.getElementById('roll-number').value.trim(); // this now holds email
+                const newPassword  = document.getElementById('email').value; // new password field
+                const confirmPass  = document.getElementById('password').value; // confirm password field
+
                 const updatedUser = {
-                    fullName: document.getElementById('full-name').value,
-                    branch: document.getElementById('branch').value,
-                    year: document.getElementById('year').value,
-                    rollNo: document.getElementById('roll-number').value,
-                    email: document.getElementById('email').value
+                    firstName: firstNameVal,
+                    lastName: lastNameVal,
+                    age: ageVal,
+                    email: emailVal
                 };
 
-                // Get the password input value
-                const passwordInput = document.getElementById('password');
-                
-                // Only include password in the update if it has been changed from the default value
-                if (passwordInput.value !== '********' && passwordInput.value.trim() !== '') {
-                    updatedUser.password = passwordInput.value;
+                // If the user typed any new password, validate confirmation
+                const newPasswordEntered = (newPassword !== undefined && newPassword !== null && newPassword.trim() !== '');
+                const confirmValEntered = (confirmPass !== undefined && confirmPass !== null && confirmPass.trim() !== '');
+
+                if (newPasswordEntered || confirmValEntered) {
+                    // Both should be provided and must match
+                    if (!newPasswordEntered || !confirmValEntered) {
+                        alert('Please enter the new password in both fields (New Password and Confirm Password).');
+                        return;
+                    }
+                    if (newPassword !== confirmPass) {
+                        alert('New password and confirm password do not match.');
+                        return;
+                    }
+                    updatedUser.password = newPassword;
                 }
 
                 try {
@@ -131,21 +181,29 @@
                     });
 
                     if (response.ok) {
-                        // Don't store password in localStorage
-                        delete updatedUser.password;
-                        localStorage.setItem('user', JSON.stringify(updatedUser));
+                        // Do not store password in localStorage
+                        const toStore = Object.assign({}, updatedUser);
+                        delete toStore.password;
+                        localStorage.setItem('user', JSON.stringify(toStore));
 
                         alert('Profile details updated successfully!');
-                        // Reset password field to default masked value
-                        passwordInput.value = '********';
+                        // Reset password fields to masked/empty after success
+                        document.getElementById('email').value = '';
+                        document.getElementById('password').value = '********';
+                        // update initial values snapshot
+                        initialValues = getCurrentValues();
                     } else {
-                        alert('Error updating profile.');
+                        const err = await response.json().catch(()=>null);
+                        alert((err && err.message) ? ('Error updating profile: ' + err.message) : 'Error updating profile.');
+                        return;
                     }
                 } catch (error) {
                     console.error('Error updating user:', error);
                     alert('Error connecting to server.');
+                    return;
                 }
 
+                // disable inputs again after save
                 inputs.forEach(input => input.disabled = true);
                 saveButton.disabled = true;
                 cancelButton.disabled = true;
@@ -153,10 +211,6 @@
             });
 
         });
-
     </script>
-   
-    
-    
 </body>
 </html>

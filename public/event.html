@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinite Learning | Skill Horizon</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --bg-black: #000000;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --text-main: #ffffff;
+    --text-dim: #94a3b8;
+    --accent-cyan: #00eaff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: var(--bg-black);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ================= NAVBAR ================= */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 6%;
+    background: rgba(0,0,0,0.92);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.logo {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    position: relative;
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    padding: 8px 14px;
+    border-radius: 20px;
+    transition: 0.4s ease;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    opacity: 0;
+    box-shadow: 0 0 15px var(--accent-cyan),
+                0 0 35px var(--accent-cyan);
+    transition: 0.4s ease;
+}
+
+.nav-links a:hover {
+    color: var(--accent-cyan);
+    background: rgba(0,234,255,0.08);
+}
+
+.nav-links a:hover::after {
+    opacity: 1;
+}
+
+/* ================= HEADER ================= */
+header {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+header h1 {
+    font-size: clamp(2.2rem, 8vw, 3.8rem);
+    color: var(--accent-cyan);
+    text-shadow: 0 0 18px var(--accent-cyan);
+}
+
+header p {
+    margin-top: 10px;
+    color: var(--text-dim);
+}
+
+/* ================= EVENTS GRID ================= */
+.event-container {
+    max-width: 1300px;
+    margin: auto;
+    padding: 40px 5%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 35px;
+    place-items: center;
+}
+
+/* ================= EVENT CARD ================= */
+.event-card {
+    width: 100%;
+    background: var(--card-bg);
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    transition: transform 0.45s ease,
+                box-shadow 0.45s ease,
+                border-color 0.45s ease;
+    cursor: pointer;
+}
+
+.event-card:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+
+.event-image {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+}
+
+.event-content {
+    padding: 22px;
+}
+
+.event-title {
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+}
+
+.event-desc {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.read-more-btn {
+    background: none;
+    border: none;
+    color: var(--accent-cyan);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 14px;
+}
+
+.event-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+}
+
+.register-btn {
+    padding: 9px 22px;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #000;
+    transition: 0.35s ease;
+}
+
+.register-btn:hover {
+    transform: scale(1.08);
+}
+
+/* ================= POPUP ================= */
+.popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.popup-content {
+    background: #0f0f0f;
+    padding: 35px;
+    border-radius: 22px;
+    max-width: 520px;
+    width: 100%;
+    border: 1px solid var(--accent-cyan);
+    box-shadow: 0 0 35px var(--accent-cyan);
+    position: relative;
+}
+
+#closePopup {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--text-dim);
+}
+
+/* ================= CONTACT ================= */
+.contact-section {
+    margin: 60px auto;
+    max-width: 1100px;
+    background: #0a0a0a;
+    padding: 50px;
+    border-radius: 30px;
+    text-align: center;
+    border: 1px solid #222;
+}
+
+/* ================= FOOTER ================= */
+footer {
+    text-align: center;
+    padding: 35px;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 480px) {
+    nav {
+        padding: 20px 5%;
+    }
+    .nav-links {
+        gap: 10px;
+    }
+    .nav-links a {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+    }
+}
+</style>
+</head>
+
+<body id="home">
+
+<nav>
+    <div class="logo">Infinite Learning</div>
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="#events">Events</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
+
+<header>
+    <h1>🌟 Skill Horizon</h1>
+    <p>Empowering the next generation of digital creators.</p>
+</header>
+
+<section id="events" class="event-container"></section>
+
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <span id="closePopup">&times;</span>
+        <h2 id="popTitle" style="color: var(--accent-cyan); margin-bottom: 15px;"></h2>
+        <p id="popFullDesc" style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; color: #ddd;"></p>
+        <p id="popVenue" style="font-size: 0.9rem; color: var(--accent-cyan); font-weight: bold;"></p>
+    </div>
+</div>
+
+<section class="contact-section" id="contact">
+    <h2 style="color: var(--accent-cyan); margin-bottom: 20px;">Host Your Event</h2>
+    <a href="mailto:admin@infinitelearning.com"
+       style="background: var(--accent-cyan); color: #000; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-weight: bold;">
+        📧 Email Admin
+    </a>
+</section>
+
+<footer>
+    <p>&copy; 2025 Infinite Learning. All Rights Reserved.</p>
+</footer>
+
+<script>
+const events = [
+    {
+        title: "AI & ML Technical Summit",
+        description: "Deep dive into Machine Learning, Neural Networks & AI-powered solutions. Join experts to explore the future of technology.",
+        venue: "Digital Plaza, Block A",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+        deadline: "Jan 25, 2026",
+        price: "₹499",
+        link: "mailto:admin@infinitelearning.com?subject=AI Summit Registration"
+    },
+    {
+        title: "Advanced Coding Bootcamp",
+        description: "Intensive training on Data Structures, Algorithms, and System Design. Perfect for students and professionals looking to level up.",
+        venue: "Infinite Learning Center, Hall 2",
+        image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
+        deadline: "Dec 31, 2025",
+        price: "₹199",
+        link: "mailto:admin@infinitelearning.com?subject=Coding Bootcamp Registration"
+    },
+    {
+        title: "National Science Expo",
+        description: "Showcase your models and inventions to a national audience and compete for prizes in various scientific categories.",
+        venue: "Innovation Grounds, City Center",
+        image: "https://images.unsplash.com/photo-1509223197845-458d87318791",
+        deadline: "Dec 26, 2025",
+        price: "Free",
+        link: "mailto:admin@infinitelearning.com?subject=Science Expo Registration"
+    }
+];
+
+function createEventCard(event) {
+    const card = document.createElement("div");
+    card.className = "event-card";
+
+    const now = new Date();
+    const deadlineDate = new Date(event.deadline);
+    const daysLeft = Math.ceil((deadlineDate - now) / (1000 * 60 * 60 * 24));
+
+    let themeColor = "#10b981";
+    if (daysLeft <= 1) themeColor = "#ff4d4d";
+    else if (daysLeft <= 7) themeColor = "#f59e0b";
+
+    card.addEventListener("mouseenter", () => {
+        card.style.boxShadow = `0 0 30px ${themeColor}`;
+        card.style.borderColor = themeColor;
+    });
+
+    card.addEventListener("mouseleave", () => {
+        card.style.boxShadow = "none";
+        card.style.borderColor = "rgba(255,255,255,0.12)";
+    });
+
+    card.innerHTML = `
+        <img src="${event.image}" class="event-image">
+        <div class="event-content">
+            <h2 class="event-title" style="color:${themeColor}">${event.title}</h2>
+            <p class="event-desc">${event.description}</p>
+            <button class="read-more-btn" onclick='showFullDetails(${JSON.stringify(event)})'>Read More</button>
+            <div style="font-size:0.85rem;color:var(--text-dim);margin-bottom:10px;">
+                <p>📍 ${event.venue}</p>
+                <p>📅 Ends: ${event.deadline}</p>
+            </div>
+            <div class="event-footer">
+                <div style="font-weight:bold;">${event.price}</div>
+                <a href="${event.link}" class="register-btn" style="background:${themeColor}">Apply Now</a>
+            </div>
+        </div>
+    `;
+    return card;
+}
+
+function showFullDetails(event) {
+    document.getElementById("popTitle").textContent = event.title;
+    document.getElementById("popFullDesc").textContent = event.description;
+    document.getElementById("popVenue").textContent = "📍 Venue: " + event.venue;
+    document.getElementById("popup").style.display = "flex";
+}
+
+document.getElementById("closePopup").onclick = () => {
+    document.getElementById("popup").style.display = "none";
+};
+
+window.onclick = (e) => {
+    if (e.target === document.getElementById("popup")) {
+        document.getElementById("popup").style.display = "none";
+    }
+};
+
+const grid = document.getElementById("events");
+events.forEach(e => grid.appendChild(createEventCard(e)));
+</script>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -45,38 +45,45 @@
             <form id="signupForm">
                 <h2>Sign Up</h2>
                 <div class="inputBox">
-                    <input type="text" name="fullName" id="fName" required>
-                    <label for="fName">Full Name</label>
+                    <!-- kept id fName to avoid CSS break; changed label and name -->
+                    <input type="text" name="firstName" id="fName" required>
+                    <label for="fName">First Name</label>
                     <i></i>
                 </div>
                 <div class="inputBox">
-                    <input type="text" name="branch" id="branch" required>
-                    <label for="branch">Branch</label>
+                    <!-- kept id branch to avoid CSS break; changed label and name -->
+                    <input type="text" name="lastName" id="branch" required>
+                    <label for="branch">Last Name</label>
                     <i></i>
                 </div>
                 <div class="inputBox">
-                    <input type="number" name="year" id="year" required>
-                    <label for="year">Year of Studying</label>
+                    <!-- kept id year; changed label and name -->
+                    <input type="number" name="age" id="year" required>
+                    <label for="year">Age</label>
                     <i></i>
                 </div>
                 <div class="inputBox">
-                    <input type="text" name="rollNo" id="rollno" required>
-                    <label for="rollno">Roll Number</label>
+                    <!-- roll number field is now the user's email; kept id rollno -->
+                    <input type="email" name="email" id="rollno" required>
+                    <label for="rollno">Email</label>
                     <i></i>
                 </div>
                 <div class="inputBox">
-                    <input type="email" name="email" id="signupEmail" required>
-                    <label for="signupEmail">Email</label>
+                    <!-- this was signupEmail (previously an email field) — now it's the new password -->
+                    <input type="password" name="newPassword" id="signupEmail" required>
+                    <label for="signupEmail">New Password</label>
                     <i></i>
                 </div>
                 <div class="inputBox">
-                    <input type="password" name="password" id="signupPassword" required>
-                    <label for="signupPassword">Enter your password</label>
+                    <!-- this was signupPassword — now confirm password -->
+                    <input type="password" name="confirmPassword" id="signupPassword" required>
+                    <label for="signupPassword">Confirm Password</label>
                     <i></i>
                 </div>
                 <input type="submit" value="Sign Up">
                 <div class="links">
-                    <a href="#">Already have an Account?</a>
+                    <!-- make this anchor toggle Sign In as requested -->
+                    <a href="#" id="alreadyAccount">Already have an Account?</a>
                     <button type="button" id="signInButton">Sign In</button>
                 </div>
             </form>

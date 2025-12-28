@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const signUpButton = document.getElementById('signUpButton');
     const signInButton = document.getElementById('signInButton');
+    const alreadyAccountLink = document.getElementById('alreadyAccount');
     const signInForm = document.getElementById('SignIn');
     const signUpForm = document.getElementById('signup');
     const loginForm = document.getElementById('loginForm');
@@ -20,17 +21,34 @@ document.addEventListener('DOMContentLoaded', function() {
         signInForm.style.display = "block";
     });
 
+    // anchor "Already have an Account?" should also open Sign In
+    if (alreadyAccountLink) {
+        alreadyAccountLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            signUpForm.style.display = "none";
+            signInForm.style.display = "block";
+        });
+    }
+
     // Handle Sign Up
     signupForm.addEventListener('submit', async function(e) {
         e.preventDefault();
+
+        // password confirmation check
+        const newPassword = document.getElementById('signupEmail').value;
+        const confirmPassword = document.getElementById('signupPassword').value;
+
+        if (newPassword !== confirmPassword) {
+            alert('Passwords do not match. Please type the same password in both fields.');
+            return;
+        }
         
         const formData = {
-            fullName: document.getElementById('fName').value,
-            branch: document.getElementById('branch').value,
-            year: document.getElementById('year').value,
-            rollNo: document.getElementById('rollno').value,
-            email: document.getElementById('signupEmail').value,
-            password: document.getElementById('signupPassword').value
+            firstName: document.getElementById('fName').value,      // formerly fullName
+            lastName: document.getElementById('branch').value,     // formerly branch
+            age: document.getElementById('year').value,            // formerly year (now age)
+            email: document.getElementById('rollno').value,        // roll number field is now the email
+            password: newPassword                                  // taken from the field that used to be signupEmail
         };
 
         try {
